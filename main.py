@@ -58,12 +58,25 @@ while program:
         case 1:
             os.system('cls')
             usersinfo.append(get_info())
-            # print('add user')
         case 2: 
             os.system('cls')
             a = check_login(usersinfo)
             try:
-                print(usersinfo[a].showval())
+                print("1.Show Info\n2.withdrawal\n3.deposit\n4.Send Money")
+                schoice = int(input('Enter your choice: '))
+                match schoice:
+                    case 1:
+                        print(usersinfo[a].showval())
+                    case 2:
+                        amt = int(input("Enter the amount you want to withdrawl"))
+                        usersinfo[a].withdrawl(amt)
+                    case 3:
+                        amt = int(input("Enter the amount you want to deposit"))
+                        usersinfo[a].deposit(amt)
+                    case 4:
+                        receiver_name = input("Enter receiver username: ")
+                        amt = int(input("Enter amount to be transferred: "))
+                        userinfo[a].sendmoney(receiver_name,amt,usersinfo)
             except:
                 print("There is error in login")
         case 3:
