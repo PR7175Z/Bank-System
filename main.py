@@ -16,9 +16,10 @@ def check_login(userinfo):
     password = getpass.getpass("Enter password: ")
     for x in userinfo:
         if username == x.username and password == x.password:
-            return userinfo.index(x)
+            return [userinfo.index(x), True]
             # print(userinfo.index(x))
         
+    return [0, False]
 
 class account(object):
     def __init__(self, name, username, password, balance):
@@ -35,6 +36,7 @@ class account(object):
 
     def sendmoney(self, receiver_username, amount, userdb):
         # self.balance -= amount
+        print(userdb)
         for x in userdb:
             if receiver_username == x.username:
                 self.balance = self.balance - amount
@@ -52,6 +54,7 @@ class account(object):
 program = True
 usersinfo = []
 while program:
+    os.system('cls')
     print("1.Add user\n2.login\n3.Exit")
     fchoice = int(input("Enter your choice: "))
     match fchoice:
@@ -60,41 +63,37 @@ while program:
             usersinfo.append(get_info())
         case 2: 
             os.system('cls')
-            a = check_login(usersinfo)
-            try:
-                print("1.Show Info\n2.withdrawal\n3.deposit\n4.Send Money")
-                schoice = int(input('Enter your choice: '))
-                match schoice:
-                    case 1:
-                        print(usersinfo[a].showval())
-                    case 2:
-                        amt = int(input("Enter the amount you want to withdrawl"))
-                        usersinfo[a].withdrawl(amt)
-                    case 3:
-                        amt = int(input("Enter the amount you want to deposit"))
-                        usersinfo[a].deposit(amt)
-                    case 4:
-                        receiver_name = input("Enter receiver username: ")
-                        amt = int(input("Enter amount to be transferred: "))
-                        userinfo[a].sendmoney(receiver_name,amt,usersinfo)
-            except:
+            a, s = check_login(usersinfo)
+            if(s):
+                login = True
+                while login:
+                    os.system('cls')
+                    print("1.Show Info\n2.withdrawal\n3.deposit\n4.Send Money\n5.Logout")
+                    schoice = int(input('Enter your choice: '))
+                    match schoice:
+                        case 1:
+                            os.system('cls')
+                            print(usersinfo[a].showval())
+                        case 2:
+                            os.system('cls')
+                            amt = int(input("Enter the amount you want to withdrawl"))
+                            usersinfo[a].withdrawl(amt)
+                        case 3:
+                            os.system('cls')
+                            amt = int(input("Enter the amount you want to deposit"))
+                            usersinfo[a].deposit(amt)
+                        case 4:
+                            os.system('cls')
+                            receiver_name = input("Enter receiver username: ")
+                            amt = int(input("Enter amount to be transferred: "))
+                            usersinfo[a].sendmoney(receiver_name,amt,usersinfo)
+                        case 5:
+                            os.system('cls')
+                            login = False
+            else:
+                os.system('cls')
                 print("There is error in login")
         case 3:
+            os.system('cls')
             program = False
             print('exit')
-
-# n = int(input('Enter number of new accounts'))
-# usersinfo = [get_info() for x in range(0,n)]
-
-# a = check_login(usersinfo)
-# try:
-#     print(usersinfo[a].showval())
-# except:
-#     print("There is error in login")
-# # sendmoney
-# x = usersinfo[a].sendmoney('admin', 200, usersinfo)
-# try:
-#     print(usersinfo[a].showval())
-#     print(usersinfo[x].name, usersinfo[x].username, usersinfo[x].balance)
-# except:
-#     print("There is error in login")
